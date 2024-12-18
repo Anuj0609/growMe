@@ -29,11 +29,9 @@ interface SelectionFormProps {
   onHide: () => void;
 }
 
-// Constants
 const ROWS_PER_PAGE = 12;
 const API_BASE_URL = "https://api.artic.edu/api/v1/artworks";
 
-// Component for the selection form
 const SelectionForm: React.FC<SelectionFormProps> = ({
   totalRecords,
   onSubmit,
@@ -62,18 +60,14 @@ const SelectionForm: React.FC<SelectionFormProps> = ({
   );
 };
 
-// Main component
 export default function ArtGallery() {
-  // State
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [selectedArtworks, setSelectedArtworks] = useState<Artwork[]>([]);
   const [page, setPage] = useState(1);
 
-  // Refs
   const overlayPanelRef = useRef<OverlayPanel>(null);
 
-  // Data fetching
   const fetchArtworks = async (pageNum: number): Promise<Artwork[]> => {
     try {
       const response = await axios.get<ApiResponse>(
@@ -87,7 +81,6 @@ export default function ArtGallery() {
     }
   };
 
-  // Handlers
   const handlePageChange = (event: DataTablePageEvent) => {
     const newPage = event.page ? event.page + 1 : 1;
     setPage(newPage);
@@ -104,7 +97,6 @@ export default function ArtGallery() {
     setSelectedArtworks(selectedItems.slice(0, count));
   };
 
-  // Effects
   useEffect(() => {
     const loadArtworks = async () => {
       const data = await fetchArtworks(page);
@@ -114,7 +106,6 @@ export default function ArtGallery() {
     loadArtworks();
   }, [page]);
 
-  // Selection column with overlay
   const SelectionHeader = () => (
     <>
       <Button
